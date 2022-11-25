@@ -1,10 +1,3 @@
-# accurate_test project
-
-![Simulator Screen Shot - iPhone 14 - 2022-11-26 at 04 13 45](https://user-images.githubusercontent.com/10304331/204056205-d0981e20-da92-4f37-a377-56d3b2f285d4.png){:width="200px"}
-![Simulator Screen Shot - iPhone 14 - 2022-11-26 at 04 16 33](https://user-images.githubusercontent.com/10304331/204056646-25087523-99ba-4605-8db1-48d745bbeb49.png){:width="200px"}
-![image](https://user-images.githubusercontent.com/10304331/204057048-ce18b9a2-ef78-483d-8862-27166db4138a.png){:width="200px"}
-
-
 ## Cara penggunaan aplikasi
 1. aplikasi dapat berjalan di iOS dan Android berkat dibuat menggunakan Flutter
 2. di halaman homepage atau halaman awal pengguna aplikasi dapat melihat seluruh user yang terdaftar
@@ -26,3 +19,11 @@
 5. Mengimplementasikan Loading state, sehingga pengguna aplikasi tetap mendapatkan feedback saat applikasi sedang dalam proses asyncronous
 6. filter dan sort user
 7. Sebisa mungkin memisahkan Logic dengan UI agar code tidak sulit dimengerti dan sebisa mungkin menerapkan clean code
+
+## accurate_test project
+
+![Simulator Screen Shot - iPhone 14 - 2022-11-26 at 04 13 45](https://user-images.githubusercontent.com/10304331/204056205-d0981e20-da92-4f37-a377-56d3b2f285d4.png)
+![Simulator Screen Shot - iPhone 14 - 2022-11-26 at 04 16 33](https://user-images.githubusercontent.com/10304331/204056646-25087523-99ba-4605-8db1-48d745bbeb49.png)
+![image](https://user-images.githubusercontent.com/10304331/204057048-ce18b9a2-ef78-483d-8862-27166db4138a.png)
+
+
