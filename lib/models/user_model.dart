@@ -12,6 +12,11 @@ class UserModel {
     }
     return UserModel(userModelList: data);
   }
+
+  UserModel copyWith({
+    List<UserModelData>? userModelList,
+  }) =>
+      UserModel(userModelList: userModelList ?? this.userModelList);
 }
 
 class UserModelData {

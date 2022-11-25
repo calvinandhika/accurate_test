@@ -30,6 +30,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           );
           final cities = await cityService.getCities();
 
+          if (event.sortByName != null) {
+            if (event.sortByName == SortByName.ascending) {
+              users.userModelList.sort(
+                (a, b) =>
+                    a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
+              );
+            } else {
+              users.userModelList.sort(
+                (b, a) =>
+                    a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
+              );
+            }
+          }
+
           emit(
             UserStateLoaded(
               userModel: users,

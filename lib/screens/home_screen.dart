@@ -1,4 +1,5 @@
 import 'package:accurate_test/bloc/user_bloc.dart';
+import 'package:accurate_test/constants/enum.dart';
 import 'package:accurate_test/constants/route.dart';
 import 'package:accurate_test/constants/style.dart';
 import 'package:accurate_test/utilities/show_error_dialog.dart';
@@ -16,14 +17,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController searchController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
-  bool isSelected = false;
+  String cityFilter = '';
+  SortByName? sortByName;
 
   void emptySearch() {
     context.read<UserBloc>().add(
           const UserEventFetching(nameSearch: ''),
         );
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -90,17 +98,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   } else {
-                    return ListView.separated(
+                    return ListView.builder(
                       shrinkWrap: true,
                       itemCount: userList?.length ?? 0,
                       physics: const ClampingScrollPhysics(),
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 10,
-                      ),
                       itemBuilder: (context, index) {
-                        return UserListTile(
-                          user: state.userModel?.userModelList[index],
-                        );
+                        final user = state.userModel?.userModelList[index];
+                        if (cityFilter != '') {
+                          if (user?.city == cityFilter) {
+                            return UserListTile(
+                              user: user,
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        } else {
+                          return UserListTile(
+                            user: user,
+                          );
+                        }
                       },
                     );
                   }
@@ -126,20 +142,52 @@ class _HomeScreenState extends State<HomeScreen> {
       Wrap(
         children: [
           ChoiceChip(
-            selected: isSelected,
+            selected: sortByName == SortByName.ascending,
             onSelected: (value) {
               setState(() {
-                isSelected = !isSelected;
+                if (value) {
+                  sortByName = SortByName.ascending;
+                  context.read<UserBloc>().add(
+                        UserEventFetching(
+                          nameSearch: searchController.text,
+                          sortByName: SortByName.ascending,
+                        ),
+                      );
+                } else {
+                  sortByName = null;
+                  context.read<UserBloc>().add(
+                        UserEventFetching(
+                          nameSearch: searchController.text,
+                          sortByName: null,
+                        ),
+                      );
+                }
               });
             },
             label: const Text('Ascending'),
           ),
           const SizedBox(width: 5),
           ChoiceChip(
-            selected: isSelected,
+            selected: sortByName == SortByName.descending,
             onSelected: (value) {
               setState(() {
-                isSelected = !isSelected;
+                if (value) {
+                  sortByName = SortByName.descending;
+                  context.read<UserBloc>().add(
+                        UserEventFetching(
+                          nameSearch: searchController.text,
+                          sortByName: SortByName.descending,
+                        ),
+                      );
+                } else {
+                  sortByName = null;
+                  context.read<UserBloc>().add(
+                        UserEventFetching(
+                          nameSearch: searchController.text,
+                          sortByName: null,
+                        ),
+                      );
+                }
               });
             },
             label: const Text('Descending'),
@@ -168,11 +216,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return Container(
                       margin: const EdgeInsets.only(right: 5),
-                      child: FilterChip(
-                        selected: isSelected,
+                      child: ChoiceChip(
+                        selected: cityFilter == cityList?[index].name,
                         onSelected: (value) {
                           setState(() {
-                            isSelected = !isSelected;
+                            if (value) {
+                              cityFilter = cityList?[index].name ?? '';
+                            } else {
+                              cityFilter = '';
+                            }
                           });
                         },
                         label: Text(cityList?[index].name ?? ''),
@@ -193,19 +245,41 @@ class _HomeScreenState extends State<HomeScreen> {
     return Form(
       key: formKey,
       child: TextFormField(
+        controller: searchController,
         decoration: const InputDecoration(
-          hintText: 'Search User Here',
+          hintText: 'Search User Here, Empty to Search All',
           icon: Icon(
             Icons.search,
           ),
         ),
-        onChanged: (value) {
+        onFieldSubmitted: (value) {
+          cityFilter = '';
           context.read<UserBloc>().add(
                 UserEventFetching(
                   nameSearch: value,
+                  sortByName: sortByName,
                 ),
               );
         },
+        onChanged: (value) {
+          if (value.isEmpty) {
+            context.read<UserBloc>().add(
+                  UserEventFetching(
+                    nameSearch: '',
+                    sortByName: sortByName,
+                  ),
+                );
+          }
+        },
+        // takut beratin server
+        // onChanged: (value) {
+        //   cityFilter = '';
+        //   context.read<UserBloc>().add(
+        //         UserEventFetching(
+        //           nameSearch: value,
+        //         ),
+        //       );
+        // },
       ),
     );
   }

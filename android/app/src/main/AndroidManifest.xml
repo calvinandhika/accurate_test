@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.calvinandhika.accurate_test">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="accurate_test"
         android:name="${applicationName}"

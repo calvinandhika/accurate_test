@@ -9,15 +9,11 @@ abstract class UserEvent extends Equatable {
 }
 
 class UserEventFetching extends UserEvent {
-  final CityModel? filterByCity;
-  final UserModel? listOfUser;
-  final SortByName sortByName;
+  final SortByName? sortByName;
   final String nameSearch;
 
   const UserEventFetching({
-    this.filterByCity,
-    this.listOfUser,
-    this.sortByName = SortByName.ascending,
+    this.sortByName,
     this.nameSearch = "",
   });
 }
