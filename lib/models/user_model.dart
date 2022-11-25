@@ -4,6 +4,14 @@ class UserModel {
   UserModel({
     required this.userModelList,
   });
+
+  factory UserModel.fromJson(List<dynamic> json) {
+    List<UserModelData> data = [];
+    for (var value in json) {
+      data.add(UserModelData.fromJson(value));
+    }
+    return UserModel(userModelList: data);
+  }
 }
 
 class UserModelData {

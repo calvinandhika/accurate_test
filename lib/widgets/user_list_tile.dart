@@ -1,10 +1,15 @@
 import 'package:accurate_test/constants/route.dart';
 import 'package:accurate_test/constants/style.dart';
+import 'package:accurate_test/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserListTile extends StatelessWidget {
-  const UserListTile({Key? key}) : super(key: key);
+  final UserModelData? user;
+  const UserListTile({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,42 +33,44 @@ class UserListTile extends StatelessWidget {
           constraints: const BoxConstraints(
             minHeight: 50,
           ),
-          child: Row(children: [
-            const SizedBox(
-              width: 40,
-              child: Icon(
-                Icons.person_outline,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Yovi - 08982313 123',
-                      style: MainStyle.headerStyle,
-                    ),
-                    Text(
-                      'calvin.andhika@gmail.com',
-                      overflow: TextOverflow.ellipsis,
-                      style: MainStyle.bodyStyle,
-                    ),
-                    Text(
-                      'Jalan Taman Cendana 2 asdasd asdasd asdasdasd aasda asda',
-                      overflow: TextOverflow.ellipsis,
-                      style: MainStyle.bodyStyle,
-                    ),
-                    Text(
-                      'Tangerang',
-                      style: MainStyle.bodyStyle,
-                    ),
-                  ],
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 40,
+                child: Icon(
+                  Icons.person_outline,
                 ),
               ),
-            ),
-          ]),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${user?.name} - ${user?.phoneNumber}',
+                        style: MainStyle.headerStyle,
+                      ),
+                      Text(
+                        user?.email ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        style: MainStyle.bodyStyle,
+                      ),
+                      Text(
+                        user?.address ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        style: MainStyle.bodyStyle,
+                      ),
+                      Text(
+                        user?.city ?? '',
+                        style: MainStyle.bodyStyle,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

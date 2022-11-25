@@ -1,7 +1,11 @@
+import 'package:accurate_test/bloc/user_bloc.dart';
 import 'package:accurate_test/constants/route.dart';
 import 'package:accurate_test/constants/style.dart';
+import 'package:accurate_test/utilities/utilities.dart';
 import 'package:accurate_test/widgets/user_list_tile.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +19,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final formKey = GlobalKey<FormState>();
 
   bool isSelected = false;
+
+  @override
+  void initState() {
+    context.read<UserBloc>().add(
+          const UserEventFetching(nameSearch: ''),
+        );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +58,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 onFieldSubmitted: (value) {
-                  print(value);
+                  context.read<UserBloc>().add(
+                        UserEventFetching(
+                          nameSearch: value,
+                        ),
+                      );
                 },
               ),
               const SizedBox(
@@ -120,15 +136,56 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              ListView.separated(
-                shrinkWrap: true,
-                itemCount: 10,
-                physics: const ClampingScrollPhysics(),
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 10,
-                ),
-                itemBuilder: (context, index) {
-                  return const UserListTile();
+              BlocConsumer<UserBloc, UserState>(
+                listener: (context, state) {
+                  if (state is UserStateLoaded) {
+                    if (state.exception != null) {
+                      final dioError = state.exception as DioError;
+                      showErrorDialog(
+                        title: 'Error Occured',
+                        body: dioError.message,
+                        context: context,
+                      );
+                    }
+                  }
+                },
+                builder: (context, state) {
+                  if (state is UserStateFetching) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is UserStateLoaded) {
+                    if (state.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state.userModel?.userModelList.isEmpty ?? true) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: Center(
+                          child: Text('No User Found'),
+                        ),
+                      );
+                    } else {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: state.userModel?.userModelList.length ?? 0,
+                        physics: const ClampingScrollPhysics(),
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 10,
+                        ),
+                        itemBuilder: (context, index) {
+                          return UserListTile(
+                            user: state.userModel?.userModelList[index],
+                          );
+                        },
+                      );
+                    }
+                  } else {
+                    return const Center(
+                      child: Text('Problem Occur'),
+                    );
+                  }
                 },
               ),
             ],
