@@ -13,15 +13,11 @@ class UserListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = {
-      'nama': 'calvin',
-      'alamat': 'bekasi',
-    };
     return GestureDetector(
       onTap: () {
         Get.toNamed(
-          '${userRoute}123123',
-          parameters: data,
+          '$userRoute${user?.id}',
+          parameters: user?.toJson(),
         );
       },
       child: Card(

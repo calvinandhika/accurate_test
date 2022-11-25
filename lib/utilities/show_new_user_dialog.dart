@@ -1,8 +1,10 @@
+import 'package:accurate_test/models/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-Future<void> showErrorDialog({
+Future<void> showNewUserDialog({
   required title,
-  required body,
+  required UserModelData? body,
   required context,
 }) async {
   return showDialog(
@@ -10,11 +12,16 @@ Future<void> showErrorDialog({
     builder: (context) {
       return AlertDialog(
         title: Text(title),
-        content: Text(body),
+        content: Text('''Name: ${body?.name}
+Email: ${body?.email}
+Phone: ${body?.phoneNumber}
+Address: ${body?.address}
+City: ${body?.city}
+'''),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
             child: const Text('Ok'),
           ),

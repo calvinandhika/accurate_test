@@ -1,13 +1,17 @@
 import 'package:accurate_test/constants/style.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DetailUserScreen extends StatelessWidget {
   const DetailUserScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final user = Get.parameters['user'];
-    // final arguments = Get.parameters['alamat'];
+    final name = Get.parameters['name']!;
+    final address = Get.parameters['address']!;
+    final email = Get.parameters['email']!;
+    final phoneNumber = Get.parameters['phoneNumber']!;
+    final city = Get.parameters['city']!;
 
     return Scaffold(
       appBar: AppBar(
@@ -20,13 +24,12 @@ class DetailUserScreen extends StatelessWidget {
               const SizedBox(height: 20),
               userProfilePicture(),
               const SizedBox(height: 20),
-              userTitle('Calvin Andhika'),
-              userBody('0822 9884 7474'),
-              userBody('calvin.andhika@gmail.com'),
+              userTitle(name),
+              userBody(phoneNumber),
+              userBody(email),
               const SizedBox(height: 20),
-              userBody(
-                  'Jalan Taman cendana 2 p2 no 10 bekasi selatam jalan temen dasmskw'),
-              userBody('Bekasi'),
+              userBody(address),
+              userBody(city),
             ],
           ),
         ),

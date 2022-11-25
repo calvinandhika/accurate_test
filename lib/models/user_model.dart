@@ -23,12 +23,12 @@ class UserModelData {
   final String? id;
 
   UserModelData({
-    required this.name,
-    required this.address,
-    required this.email,
-    required this.phoneNumber,
-    required this.city,
-    required this.id,
+    this.name,
+    this.address,
+    this.email,
+    this.phoneNumber,
+    this.city,
+    this.id,
   });
 
   factory UserModelData.fromJson(Map<String, dynamic> json) {
@@ -42,14 +42,14 @@ class UserModelData {
     );
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, String> toJson() {
     return {
-      "name": name,
-      "address": address,
-      "email": email,
-      "phoneNumber": phoneNumber,
-      "city": city,
-      "id": id,
+      "name": name ?? '',
+      "address": address ?? '',
+      "email": email ?? '',
+      "phoneNumber": phoneNumber ?? '',
+      "city": city ?? '',
+      "id": id ?? '',
     };
   }
 }

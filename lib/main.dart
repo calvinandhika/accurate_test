@@ -8,24 +8,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
 
 void main() => runApp(
-      GetMaterialApp(
-        initialRoute: homePageRoute,
-        debugShowCheckedModeBanner: false,
-        getPages: [
-          GetPage(name: homePageRoute, page: () => const HomeScreen()),
-          GetPage(name: addNewUserRoute, page: () => const AddUserScreen()),
-          GetPage(
-            name: userDetailRoute,
-            page: () => const DetailUserScreen(),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<UserBloc>(
+            create: (context) => UserBloc(),
           ),
         ],
-        home: MultiBlocProvider(
-          providers: [
-            BlocProvider<UserBloc>(
-              create: (context) => UserBloc(),
+        child: GetMaterialApp(
+          initialRoute: homePageRoute,
+          debugShowCheckedModeBanner: false,
+          getPages: [
+            GetPage(name: homePageRoute, page: () => const HomeScreen()),
+            GetPage(name: addNewUserRoute, page: () => const AddUserScreen()),
+            GetPage(
+              name: userDetailRoute,
+              page: () => const DetailUserScreen(),
             ),
           ],
-          child: const MaterialApp(
+          home: const MaterialApp(
             title: 'Accurate Test',
             debugShowCheckedModeBanner: false,
             home: HomeScreen(),

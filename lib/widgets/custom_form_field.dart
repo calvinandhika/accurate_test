@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 class CustomFormField extends StatelessWidget {
   final String title;
   final bool isBigger;
+  final TextEditingController controller;
+  final TextInputType textInputType;
 
   const CustomFormField({
     Key? key,
     required this.title,
+    required this.controller,
+    required this.textInputType,
     this.isBigger = false,
   }) : super(key: key);
 
@@ -15,6 +19,8 @@ class CustomFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: TextFormField(
+        controller: controller,
+        keyboardType: textInputType,
         minLines: isBigger ? 4 : null,
         maxLines: isBigger ? 6 : 1,
         decoration: InputDecoration(

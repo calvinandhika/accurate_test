@@ -21,3 +21,10 @@ class UserEventFetching extends UserEvent {
     this.nameSearch = "",
   });
 }
+
+class UserEventAddNewUser extends UserEvent {
+  final UserModelData user;
+  const UserEventAddNewUser({
+    required this.user,
+  });
+}

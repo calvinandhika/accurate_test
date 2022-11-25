@@ -3,7 +3,7 @@ class CityModel {
 
   CityModel({required this.cityModelList});
 
-  factory CityModel.fromJson(List<Map<String, dynamic>> json) {
+  factory CityModel.fromJson(List<dynamic> json) {
     List<CityModelData> data = [];
     for (var value in json) {
       data.add(
